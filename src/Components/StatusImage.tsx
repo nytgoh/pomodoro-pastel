@@ -1,69 +1,54 @@
-﻿import React, {useEffect, useState} from 'react';
-import YouGotThis from "./Assets/YouGotThis.png"
-import ReadyToFocus from "./Assets/ReadyToFocus.png"
-import BreakTime from "./Assets/BreakTime.png"
+﻿import React, {useEffect, useState} from "react";
 import {Status} from "./Types";
+import ReadyToFocus from "./Assets/ReadyToFocus.png";
+import YouGotThis from "./Assets/YouGotThis.png";
+import BreakTime from "./Assets/BreakTime.png";
 
-interface StatusImageProps {
+interface StatusImagesProps {
     status: Status;
 }
 
-const StatusImage: React.FC<StatusImageProps> = ({ status }) => {
-    // State to handle opacity
-    const [opacity, setOpacity] = useState(0);
-    
-    useEffect(() => {
-        setOpacity(0);
-        
-        const timer = setTimeout(() => setOpacity(100), 100);
+const StatusImages: React.FC<StatusImagesProps> = ({status}) => {
+    const [opacity, setOpacity] = useState<{ Paused: number, Running: number, Break: number }>({ Paused: 0, Running: 0, Break: 0 });
 
-        return () => clearTimeout(timer);
+    useEffect(() => {
+        const updatedOpacity = { ...opacity };
+
+        for (const key in opacity) {
+            if (!opacity.hasOwnProperty(key)) continue;
+
+            if (key === status) {
+                updatedOpacity[key as keyof typeof opacity] = 1;  // Set opacity to 1 for visibility
+            } else {
+                updatedOpacity[key as keyof typeof opacity] = 0;  // Set opacity to 0 for hiding
+            }
+        }
+
+        setOpacity(updatedOpacity);
     }, [status]);
-    
-    let imageSrc, altText;
-    useEffect(() => {
-        console.log(opacity);
-    }, [opacity]);
-
-    // Update image source and alt text based on the status
-    switch (status) {
-        case "Paused":
-            imageSrc = ReadyToFocus;
-            altText = "Ready to focus";
-            break;
-        case "Running":
-            imageSrc = YouGotThis;
-            altText = "You got this";
-            break;
-        case "Break":
-            imageSrc = BreakTime;
-            altText = "Break time";
-            break;
-        default:
-            return null;
-    }
 
     return (
-        <img
-            src={imageSrc}
-            alt={altText}
-            className={`opacity-${opacity} transition-opacity duration-500 ease-in-out fixed bottom-[12vw] ${getPositionForStatus(status)} h-[30vw] max-h-[500px]`}
-        />
+        <div>
+            <img
+                src={ReadyToFocus}
+                alt={"Ready to focus"}
+                style={{ opacity: opacity.Paused, transition: "opacity 0.5s ease-in-out" }}  // Inline opacity and transition
+                className="fixed bottom-[12vw] left-[5vw] h-[30vw] max-h-[500px]"
+            />
+            <img
+                src={YouGotThis}
+                alt={"You got this"}
+                style={{ opacity: opacity.Running, transition: "opacity 0.5s ease-in-out" }}  // Inline opacity and transition
+                className="fixed bottom-[12vw] left-1/2 transform -translate-x-1/2 h-[30vw] max-h-[500px]"
+            />
+            <img
+                src={BreakTime}
+                alt={"Break time"}
+                style={{ opacity: opacity.Break, transition: "opacity 0.5s ease-in-out" }}  // Inline opacity and transition
+                className="fixed bottom-[12vw] right-[5vw] h-[30vw] max-h-[500px]"
+            />
+        </div>
     );
 };
 
-const getPositionForStatus = (status: Status) => {
-    switch (status) {
-        case "Paused":
-            return "left-[5vw]";
-        case "Running":
-            return "left-1/2 transform -translate-x-1/2";
-        case "Break":
-            return "right-[5vw]";
-        default:
-            return "";
-    }
-};
-
-
-export default StatusImage;
+export default StatusImages;
