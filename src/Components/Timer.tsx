@@ -20,7 +20,7 @@ interface TimerStage {
 const Timer: React.FC<TimerProps> = ({setStatus, minutes}) => {
     const millisecondsInMinute = 60000;
     const timerStages: TimerStage[] = [
-        {status: "Paused", time: 1},
+        {status: "Paused", time: 25},
         {status: "Break", time: 5},
         {status: "Paused", time: 25},
         {status: "Break", time: 5},
@@ -91,7 +91,7 @@ const Timer: React.FC<TimerProps> = ({setStatus, minutes}) => {
                 break;
             case 'pause':
                 props.api.pause();
-                updateState("Ready to Continue?", "Paused", ['resume', 'stop']);
+                updateState("Ready to Continue?", isOnBreak(stageTracker) ? "Break" : "Paused", ['resume', 'stop']);
                 break;
             case 'resume':
                 props.api.start();
@@ -99,8 +99,7 @@ const Timer: React.FC<TimerProps> = ({setStatus, minutes}) => {
                 break;
             case 'stop':
                 props.api.stop();
-                console.log('stop')
-                updateState("Ready to Start?", "Paused", ['start']);
+                updateState("Ready to Start?", isOnBreak(stageTracker) ? "Break" : "Paused", ['start']);
                 break;
             default:
                 break;
