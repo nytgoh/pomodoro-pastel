@@ -125,7 +125,7 @@ const Timer: React.FC<TimerProps> = ({setStatus, minutes}) => {
                     formattedTimeRef.current = formattedTime;
 
                     return (<div className="text-center">
-                        <p className="font-nova text-96 text-offWhite text-stroke mb-0 leading-none">{formattedTime}</p>
+                        <p className="font-nova text-[12vh] text-offWhite text-stroke mb-0 leading-none">{formattedTime}</p>
                         <p className="font-puritan text-2xl text-darkPink leading-none font-bold mb-10">{title}</p>
                         <div className="flex space-x-4 justify-center mb-7">
                             {visibleButtons.map((action: Action) => <ActionButton key={action}
