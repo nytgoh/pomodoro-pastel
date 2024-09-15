@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        nova: ['"Nova Oval"', 'system-ui'],
+        mono: ['"B612 Mono"', 'monospace'],
         puritan: ['"Puritan"', 'sans-serif'],
         orienta: ['"Orienta"', 'sans-serif'],
       },

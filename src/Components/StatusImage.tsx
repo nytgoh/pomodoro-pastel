@@ -39,7 +39,7 @@ const StatusImages: React.FC<StatusImagesProps> = ({status}) => {
                 src={YouGotThis}
                 alt={"You got this"}
                 style={{ opacity: opacity.Running, transition: "opacity 0.5s ease-in-out" }}  // Inline opacity and transition
-                className="fixed bottom-[12vw] left-1/2 transform -translate-x-1/2 h-[30vw] max-h-[500px] min-h-[200px]"
+                className="fixed bottom-[5vw] left-1/2 transform -translate-x-1/2 h-[30vw] max-h-[500px] min-h-[200px]"
             />
             <img
                 src={BreakTime}
